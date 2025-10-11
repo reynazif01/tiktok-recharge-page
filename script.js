@@ -38,7 +38,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (selectedPackage && selectedPackage.classList) {
             selectedPackage.classList.remove('selected');
         }
-        
         selectedPackage = null;
         userIdInput.value = '';
         rechargeButton.disabled = true;
@@ -182,18 +181,14 @@ document.addEventListener('DOMContentLoaded', () => {
         processingOverlay.classList.remove('hidden');
         
         startTimer(299, countdownTimer);
-
-        // THAY ĐỔI: Giảm thời gian chờ xuống 2 giây
         setTimeout(() => {
             if (timerInterval) clearInterval(timerInterval);
-            
             successUserId.textContent = `@${userIdInput.value}`;
             successCoinAmount.textContent = selectedPackage.dataset.amount;
-            
             processingOverlay.classList.add('hidden');
             rechargeInterface.classList.add('hidden');
             successScreen.classList.remove('hidden');
-        }, 2000); // 2000 mili-giây = 2 giây
+        }, 5000);
     });
 
     userIdInput.addEventListener('input', () => {
@@ -201,6 +196,8 @@ document.addEventListener('DOMContentLoaded', () => {
             userIdContainer.classList.remove('error');
         }
     });
+
+
 
     rechargeAgainButton.addEventListener('click', resetInterface);
     
