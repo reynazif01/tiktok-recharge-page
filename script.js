@@ -188,7 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
             processingOverlay.classList.add('hidden');
             rechargeInterface.classList.add('hidden');
             successScreen.classList.remove('hidden');
-        }, 5000);
+        }, 3000);
     });
 
     userIdInput.addEventListener('input', () => {
