@@ -197,8 +197,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-
-
     rechargeAgainButton.addEventListener('click', resetInterface);
     
     initializeRandomCards();

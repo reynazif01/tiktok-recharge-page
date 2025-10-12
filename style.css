@@ -6,12 +6,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helv
 .mobile-container { width: 100%; max-width: 450px; background-color: #ffffff; min-height: 800px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-radius: 8px; }
 #success-screen { padding: 0 20px; }
 
-/* App Header */
-.app-header { display: grid; grid-template-columns: 1fr 2fr 1fr; align-items: center; padding: 15px 20px; border-bottom: 1px solid #eee; }
-.app-header h1 { font-size: 18px; margin: 0; text-align: center; font-weight: 600; }
-.app-header .back-arrow { font-size: 24px; text-decoration: none; color: #333; }
-.app-header i { font-size: 20px; justify-self: end; }
-
 /* Main Header */
 header { display: flex; align-items: center; padding: 15px 20px; border-bottom: 1px solid #eee; }
 .logo-title { display: flex; align-items: center; }
