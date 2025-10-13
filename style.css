@@ -6,13 +6,12 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helv
 .mobile-container { width: 100%; max-width: 450px; background-color: #ffffff; min-height: 800px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-radius: 8px; }
 #success-screen { padding: 0 20px; }
 
-/* Header */
+/* Main Header */
 .top-bar { display: flex; align-items: center; gap: 15px; padding: 15px 20px; border-bottom: 1px solid #eee; }
 .top-bar-logo { height: 32px; flex-shrink: 0; }
 .search-bar { position: relative; width: 100%; }
 .search-bar input { width: 100%; padding: 10px 15px 10px 40px; border-radius: 8px; border: none; background-color: #f1f1f2; font-size: 16px; box-sizing: border-box; }
 .search-bar i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #888; }
-
 .recharge-title-bar { display: flex; justify-content: space-between; align-items: center; padding: 20px 20px 0 20px; }
 .recharge-title-bar h2 { font-size: 20px; margin: 0; }
 .history-link { font-size: 14px; color: #555; text-decoration: none; }
@@ -23,10 +22,45 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helv
 #current-balance { font-size: 18px; font-weight: bold; }
 .user-id-container { margin-top: 15px; }
 .user-id-container label { display: block; font-size: 14px; color: #888; margin-bottom: 5px; }
-#user-id-input { width: 100%; border: none; border-bottom: 1px solid #ccc; padding: 10px 0; font-size: 16px; outline: none; box-sizing: border-box; }
-#user-id-input:focus { border-bottom-color: #fe2c55; }
-.user-id-container.error #user-id-input { border-bottom-color: #fe2c55; }
-.notification-bar { background-color: #fff4f6; padding: 10px 15px; border-radius: 4px; margin-top: 20px; font-size: 14px; }
+/* --- BẮT ĐẦU THAY THẾ TỪ ĐÂY --- */
+
+/* Bọc ngoài để căn chỉnh @ và ô input, và tạo đường gạch chân */
+.input-wrapper {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+    transition: border-bottom-color 0.2s;
+}
+
+/* Ký tự @ mặc định */
+.at-symbol {
+    font-size: 16px;
+    color: #161823;
+    padding-right: 4px;
+}
+
+/* Xóa viền gốc của input và làm cho nó hòa vào nền */
+#user-id-input {
+    border: none;
+    padding: 10px 0;
+    font-size: 16px;
+    outline: none;
+    width: 100%;
+    background-color: transparent;
+}
+
+/* Hiệu ứng khi người dùng nhấp vào ô input */
+.input-wrapper:focus-within {
+    border-bottom-color: #fe2c55;
+}
+
+/* Hiệu ứng khi có lỗi */
+.user-id-container.error .input-wrapper {
+    border-bottom-color: #fe2c55;
+}
+
+/* --- KẾT THÚC THAY THẾ TẠI ĐÂY --- */
+.notification-bar { background-color: #fff4f6; padding: 10px 15px; border-radius: 8px; margin-top: 20px; font-size: 14px; }
 .notification-bar p { margin: 0; }
 .coin-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 20px; }
 .coin-package { position: relative; background-color: #f8f8f8; border: 2px solid #f8f8f8; border-radius: 10px; padding: 15px; text-align: center; cursor: pointer; transition: all 0.2s ease-in-out; }
@@ -72,20 +106,16 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helv
 .payment-methods { margin-top: 20px; margin-bottom: 20px; }
 .payment-methods h3 { font-size: 16px; margin-bottom: 10px; font-weight: normal; color: #888; }
 .payment-option { display: flex; align-items: center; border: 1px solid #ddd; border-radius: 8px; padding: 15px; margin-bottom: 10px; cursor: pointer; font-size: 16px; gap: 15px; }
-.payment-option i { font-size: 24px; }
-.payment-option .fa-paypal { color: #00457C; }
-.payment-option .fa-credit-card { color: #888; }
+.payment-option img { height: 24px; }
 .payment-option.selected { border-color: #fe2c55; }
 .policy-text { font-size: 12px; color: #aaa; margin-bottom: 20px; line-height: 1.5; }
 
 /* Saved Cards Modal */
 .saved-cards-list { display: flex; flex-direction: column; gap: 10px; }
 .saved-card-item { display: flex; align-items: center; border: 1px solid #ddd; border-radius: 8px; padding: 15px; cursor: pointer; gap: 15px; }
-.saved-card-item i { font-size: 24px; }
-.saved-card-item .fa-plus { color: #888; }
+.saved-card-item img { height: 24px; }
+.saved-card-item i.fa-plus { font-size: 20px; color: #888; }
 .saved-card-item span { font-size: 16px; }
-.visa-color { color: #1A1F71; }
-.mastercard-color { color: #EB001B; }
 
 /* Processing Modal */
 #processing-overlay .modal-content { text-align: center; }
@@ -99,3 +129,50 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helv
 #processing-overlay h2 { font-size: 22px; }
 #processing-overlay p { color: #888; margin-top: -10px; }
 #processing-overlay .timer { font-size: 48px; font-weight: 300; margin: 20px 0; }
+/* Style cho dòng chi tiết trong modal */
+.summary-row.total-row {
+    border-bottom: none;
+    padding-bottom: 5px;
+}
+
+.summary-detail-row {
+    padding: 5px 0 15px 0;
+    font-size: 14px;
+    color: #888;
+}
+
+.summary-detail-row .coin-icon {
+    height: 16px;
+    margin-right: 8px;
+}
+/* Ghi đè style để đưa processing popup ra giữa */
+#processing-overlay {
+    align-items: center; /* Thay vì flex-end, dùng center để căn giữa theo chiều dọc */
+    justify-content: center;
+}
+
+/* Điều chỉnh lại giao diện của popup khi nó ở giữa */
+#processing-overlay .modal-content {
+    border-radius: 16px; /* Bo tròn tất cả các góc thay vì chỉ 2 góc trên */
+    animation: fadeIn 0.3s ease-out; /* Dùng hiệu ứng mờ dần thay vì trượt lên */
+}
+
+/* Định nghĩa hiệu ứng mờ dần (fadeIn) */
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+/* Style cho phần thông tin tài khoản trong modal */
+.account-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#modal-user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%; /* Bo tròn ảnh đại diện */
+    object-fit: cover;
+    background-color: #f1f1f2; /* Màu nền dự phòng */
+}

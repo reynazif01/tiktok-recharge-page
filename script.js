@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- Lấy các phần tử ---
+    // --- LẤY CÁC PHẦN TỬ ---
     const userIdContainer = document.querySelector('.user-id-container');
     const userIdInput = document.getElementById('user-id-input');
     const fixedCoinPackages = document.querySelectorAll('.coin-package:not(.custom-input-package)');
@@ -28,12 +28,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const cardDisplayIcon = document.getElementById('card-display-icon');
     const savedVisaText = document.getElementById('saved-visa-text');
     const savedMastercardText = document.getElementById('saved-mastercard-text');
+    const modalCoinAmountText = document.getElementById('modal-coin-amount-text');
+    const modalCoinPriceText = document.getElementById('modal-coin-price-text');
+    const modalUserAvatar = document.getElementById('modal-user-avatar');
+    const currentBalanceElement = document.getElementById('current-balance');
+    let currentBalance = 0;
 
     let selectedPackage = null;
     let timerInterval = null;
     const COIN_PRICE_RATE = 0.01057;
 
-    // --- Hàm chức năng ---
+    const initialBalanceText = currentBalanceElement.textContent.replace(/,/g, '');
+    currentBalance = parseInt(initialBalanceText, 10);
+
+    // --- CÁC HÀM ---
+    
     function resetInterface() {
         if (selectedPackage && selectedPackage.classList) {
             selectedPackage.classList.remove('selected');
@@ -52,7 +61,10 @@ document.addEventListener('DOMContentLoaded', () => {
         customPriceDisplay.classList.add('range-text');
         
         cardDisplayText.textContent = 'Add Credit Or Debit Card';
-        cardDisplayIcon.className = 'fas fa-credit-card';
+        cardDisplayIcon.src = 'https://icongr.am/fontawesome/credit-card.svg?color=808080';
+        if (modalUserAvatar) {
+            modalUserAvatar.src = 'https://icongr.am/clarity/avatar.svg?color=cccccc';
+        }
     }
 
     function deselectAllPackages() {
@@ -86,8 +98,12 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         
-        modalUserId.textContent = `@${userIdInput.value}`;
+        const username = userIdInput.value.trim();
+        modalUserId.textContent = `@${username}`;
         modalPrice.textContent = selectedPackage.dataset.price;
+        modalCoinAmountText.textContent = selectedPackage.dataset.amount;
+        modalCoinPriceText.textContent = selectedPackage.dataset.price;
+        
         paymentModalOverlay.classList.remove('hidden');
     }
 
@@ -104,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 1000);
     }
 
-    // --- Gán sự kiện ---
+    // --- GÁN SỰ KIỆN ---
     fixedCoinPackages.forEach(packageElement => {
         packageElement.addEventListener('click', () => {
             deselectAllPackages();
@@ -125,21 +141,37 @@ document.addEventListener('DOMContentLoaded', () => {
             deselectAllPackages();
             customInputPackage.classList.add('selected');
         }
-        
-        const amount = parseInt(customCoinInputField.value);
+
+        const rawValue = customCoinInputField.value.replace(/,/g, '');
+        const amount = parseInt(rawValue, 10);
+
         if (isNaN(amount) || amount < 30) {
             customPriceDisplay.textContent = '30-2,500,000';
             customPriceDisplay.classList.add('range-text');
             rechargeButton.disabled = true;
             selectedPackage = null;
+            if (isNaN(amount)) {
+                customCoinInputField.value = '';
+            }
         } else {
-            const price = (amount * COIN_PRICE_RATE).toFixed(2);
-            const priceString = `US$${price}`;
+            const cursorPosition = customCoinInputField.selectionStart;
+            const originalLength = customCoinInputField.value.length;
+            customCoinInputField.value = amount.toLocaleString('en-US');
+            const newLength = customCoinInputField.value.length;
+            customCoinInputField.setSelectionRange(cursorPosition + newLength - originalLength, cursorPosition + newLength - originalLength);
+
+            const price = amount * COIN_PRICE_RATE;
+            const formattedPrice = price.toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+            const priceString = `US$${formattedPrice}`;
+
             customPriceDisplay.textContent = priceString;
             customPriceDisplay.classList.remove('range-text');
             
             selectedPackage = {
-                dataset: { amount: amount.toString(), price: priceString }
+                dataset: { amount: amount.toLocaleString('en-US'), price: priceString }
             };
             rechargeButton.disabled = false;
         }
@@ -167,10 +199,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             const cardName = item.dataset.cardName;
-            const cardIconClass = item.dataset.cardIconClass;
+            const cardLogoSrc = item.dataset.cardLogoSrc;
             
             cardDisplayText.textContent = cardName;
-            cardDisplayIcon.className = cardIconClass;
+            cardDisplayIcon.src = cardLogoSrc;
             
             savedCardsModalOverlay.classList.add('hidden');
         });
@@ -183,12 +215,19 @@ document.addEventListener('DOMContentLoaded', () => {
         startTimer(299, countdownTimer);
         setTimeout(() => {
             if (timerInterval) clearInterval(timerInterval);
+
+            const amountToAdd = parseInt(selectedPackage.dataset.amount.replace(/,/g, ''), 10);
+            
+            currentBalance += amountToAdd;
+            
+            currentBalanceElement.textContent = currentBalance.toLocaleString('en-US');
+
             successUserId.textContent = `@${userIdInput.value}`;
             successCoinAmount.textContent = selectedPackage.dataset.amount;
             processingOverlay.classList.add('hidden');
             rechargeInterface.classList.add('hidden');
             successScreen.classList.remove('hidden');
-        }, 3000);
+        }, 5000);
     });
 
     userIdInput.addEventListener('input', () => {
@@ -200,4 +239,5 @@ document.addEventListener('DOMContentLoaded', () => {
     rechargeAgainButton.addEventListener('click', resetInterface);
     
     initializeRandomCards();
+
 });

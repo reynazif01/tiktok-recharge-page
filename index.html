@@ -13,9 +13,9 @@
             <div class="top-bar">
                 <img src="https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg" alt="TikTok Logo" class="top-bar-logo">
                 <div class="search-bar">
-                    <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Search">
-                </div>
+    <i class="fas fa-search"></i>
+    <input type="text" id="searchInput" name="query" placeholder="Search">
+</div>
             </div>
 
             <div class="recharge-title-bar">
@@ -31,7 +31,10 @@
 
                 <div class="user-id-container">
                     <label for="user-id-input">Enter Username</label>
-                    <input type="text" id="user-id-input" placeholder="@xuanhieu.no1">
+                    <div class="input-wrapper">
+    <span class="at-symbol">@</span>
+    <input type="text" id="user-id-input" placeholder="xuanhieu.no1">
+</div>
                 </div>
 
                 <div class="notification-bar"><p>Recharge: Save up to 25% compared to in-app purchase</p></div>
@@ -44,7 +47,7 @@
                     <div class="coin-package" data-amount="3,500" data-price="$36.99"><div class="coin-amount"><img src="coin.png" class="coin-icon" alt="Coin"> 3,500</div><div class="coin-price">US$36.99</div></div>
                     <div class="coin-package" data-amount="7,000" data-price="$73.98"><div class="coin-amount"><img src="coin.png" class="coin-icon" alt="Coin"> 7,000</div><div class="coin-price">US$73.98</div></div>
                     <div class="coin-package" data-amount="17,500" data-price="$184.97"><div class="coin-amount"><img src="coin.png" class="coin-icon" alt="Coin"> 17,500</div><div class="coin-price">US$184.97</div></div>
-                    <div class="coin-package custom-input-package"><div class="custom-input-wrapper"><img src="coin.png" class="coin-icon" alt="Coin"><input type="number" id="custom-coin-input-field" placeholder="Amount"></div><span id="custom-price-display" class="coin-price range-text">30-2,500,000</span></div>
+                    <div class="coin-package custom-input-package"><div class="custom-input-wrapper"><img src="coin.png" class="coin-icon" alt="Coin"><input type="text" inputmode="numeric" id="custom-coin-input-field" placeholder="Amount"></div><span id="custom-price-display" class="coin-price range-text">30-2,500,000</span></div>
                 </div>
 
                 <div class="payment-icons-footer"><img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Mastercard_2019_logo.svg" alt="Mastercard"><img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/American_Express_logo_%282018%29.svg" alt="American Express"><img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal"></div>
@@ -65,13 +68,22 @@
             <div class="modal-header"><h2>Order summary</h2><i id="close-modal-btn" class="fas fa-times"></i></div>
             <div class="info-secure"><i class="fas fa-check-circle"></i> Your info is private and secure</div>
             <div class="order-summary">
-                <div class="summary-row"><span>Account</span><span id="modal-user-id"></span></div>
+                <div class="summary-row">
+    <span>Account</span>
+    <div class="account-info">
+    <span id="modal-user-id"></span>
+</div>
+</div>
                 <div class="summary-row total-row"><span>Total</span><strong id="modal-price"></strong></div>
             </div>
+	<div class="summary-row summary-detail-row">
+    <span><img src="coin.png" class="coin-icon" alt="Coin"> <span id="modal-coin-amount-text"></span> Coins</span>
+    <span id="modal-coin-price-text"></span>
+</div>
             <div class="payment-methods">
                 <h3>Payment method</h3>
-                <div class="payment-option" data-method="Card"><i id="card-display-icon" class="fas fa-credit-card"></i> <span id="card-display-text">Add Credit Or Debit Card</span></div>
-                <div class="payment-option selected" data-method="PayPal"><i class="fab fa-paypal"></i> <span>PayPal</span></div>
+                <div class="payment-option" data-method="Card"><img id="card-display-icon" src="https://icongr.am/fontawesome/credit-card.svg?color=808080" alt="Card Icon"><span id="card-display-text">Add Credit Or Debit Card</span></div>
+                <div class="payment-option selected" data-method="PayPal"><img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal"><span>PayPal</span></div>
             </div>
             <div class="policy-text">By tapping Pay, you acknowledge you have read and agree to TikTok's Virtual Items Policy...</div>
             <button id="pay-now-btn" class="recharge-button">Pay now</button>
@@ -82,8 +94,8 @@
         <div class="modal-content">
             <div class="modal-header"><h2>Saved Cards</h2><i id="close-saved-cards-btn" class="fas fa-times"></i></div>
             <div class="saved-cards-list">
-                <div class="saved-card-item" data-card-name="Visa **** 1234" data-card-icon-class="fab fa-cc-visa visa-color"><i class="fab fa-cc-visa visa-color"></i><span id="saved-visa-text"></span></div>
-                <div class="saved-card-item" data-card-name="Mastercard **** 5678" data-card-icon-class="fab fa-cc-mastercard mastercard-color"><i class="fab fa-cc-mastercard mastercard-color"></i><span id="saved-mastercard-text"></span></div>
+                <div class="saved-card-item" data-card-name="Visa **** 1234" data-card-logo-src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg"><img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa"><span id="saved-visa-text"></span></div>
+                <div class="saved-card-item" data-card-name="Mastercard **** 5678" data-card-logo-src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Mastercard_2019_logo.svg"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Mastercard_2019_logo.svg" alt="Mastercard"><span id="saved-mastercard-text"></span></div>
                 <div class="saved-card-item add-new-card"><i class="fas fa-plus"></i><span>Add new card</span></div>
             </div>
         </div>
